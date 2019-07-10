@@ -49,5 +49,6 @@
     </dependencies>
     <modules>
         <module>password-generator</module>
+        <module>noaa-files-parser</module>
     </modules>
 </project>
