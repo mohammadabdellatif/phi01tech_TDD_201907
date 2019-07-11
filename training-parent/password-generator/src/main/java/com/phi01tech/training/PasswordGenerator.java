@@ -2,68 +2,42 @@ package com.phi01tech.training;
 
 import java.util.Random;
 
-// too much scrolling
-// small variable names
-// maximum lines for method shouldn't be more than 10
-// too much comments
-
-// basics steps in any refactoring process:
-// 1- renaming
-// 2- scoping
-// 3- extraction methods
-
-// 6 to 10 lines
+// refactoring
+// long methods
+// unclear variables names
+// temporary variables (inlining)
+// duplicate code
 public class PasswordGenerator {
+    public static final String SYMBOLS = "?!#_";
+    public static final String NUMBERS = "0123456789";
+    public static final String LETTERS = "abcdefghijklmnopqrstuvwxyz";
+    private Random random = new Random();
 
     public String generate() {
-        Random random = new Random();
-        String pass = selectLetters(random);
-        pass += selectNumbers(random);
-        pass += selectSymbols(random);
+        StringBuilder pass = new StringBuilder();
+
+        pass
+                .append(select(LETTERS, 4, random))
+                .append(select(NUMBERS, 2, random))
+                .append(select(SYMBOLS, 2, random));
         return shufflePassword(pass, random);
     }
 
-    private String shufflePassword(String pass, Random random) {
-        String shuffled = "";
-        for (int i = 0; i < 8; i++) {
-            int selectedIndex = random.nextInt(pass.length());
-            shuffled += pass.charAt(selectedIndex);
-            pass = pass.substring(0, selectedIndex) + pass.substring(selectedIndex + 1);
-        }
-        return shuffled;
+    private String shufflePassword(StringBuilder pass, Random random) {
+        return select(pass.toString(), pass.length(), random);
     }
 
-    private String selectSymbols(Random random) {
-        String symbols = "?!#_";
-        String selection = "";
-        for (int i = 0; i < 2; i++) {
-            int selectedIndex = random.nextInt(symbols.length());
-            selection += symbols.charAt(selectedIndex);
-            symbols = symbols.substring(0, selectedIndex) + symbols.substring(selectedIndex + 1);
+    private String select(String options, int count, Random random) {
+        StringBuilder selected = new StringBuilder();
+        for (int i = 0; i < count; i++) {
+            int selection = random.nextInt(options.length());
+            selected.append(options.charAt(selection));
+            options = removeSelectionFromOptions(options, selection);
         }
-        return selection;
+        return selected.toString();
     }
 
-    private String selectNumbers(Random random) {
-        String number = "0123456789";
-        String selection = "";
-        for (int i = 0; i < 2; i++) {
-            int selectedIndex = random.nextInt(number.length());
-            selection += number.charAt(selectedIndex);
-            number = number.substring(0, selectedIndex) + number.substring(selectedIndex + 1);
-        }
-        return selection;
+    private String removeSelectionFromOptions(String options, int selected) {
+        return options.substring(0, selected) + options.substring(selected + 1);
     }
-
-    private String selectLetters(Random random) {
-        String letters = "abcdefghijklmnopqrstuvwxyz";
-        String selection = "";
-        for (int i = 0; i < 4; i++) {
-            int selected = random.nextInt(letters.length());
-            selection += letters.charAt(selected);
-            letters = letters.substring(0, selected) + letters.substring(selected + 1);
-        }
-        return selection;
-    }
-
 }
