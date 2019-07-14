@@ -1,10 +1,5 @@
 package com.phi01tech.training.noaa;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 public class Station {
 
     private String id;                  // USAF = Air Force station ID. May contain a letter in the first position.
