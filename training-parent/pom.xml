@@ -50,5 +50,6 @@
     <modules>
         <module>password-generator</module>
         <module>noaa-files-parser</module>
+        <module>speaker-model</module>
     </modules>
 </project>
