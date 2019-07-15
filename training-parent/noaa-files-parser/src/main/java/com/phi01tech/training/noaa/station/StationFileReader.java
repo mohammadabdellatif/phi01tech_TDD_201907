@@ -1,4 +1,4 @@
-package com.phi01tech.training.noaa;
+package com.phi01tech.training.noaa.station;
 
 import java.io.File;
 import java.util.List;
