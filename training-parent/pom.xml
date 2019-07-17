@@ -51,5 +51,7 @@
         <module>password-generator</module>
         <module>noaa-files-parser</module>
         <module>speaker-model</module>
+        <module>library-management</module>
+        <module>math-utility</module>
     </modules>
 </project>
