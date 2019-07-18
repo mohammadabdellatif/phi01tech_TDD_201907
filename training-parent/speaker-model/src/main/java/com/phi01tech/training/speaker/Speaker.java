@@ -8,17 +8,20 @@ public class Speaker {
     private static final List<String> UNAPPROVED_SCRIPTING_LANGUAGES = Arrays.asList("Cobol", "Punch Cards", "Commodore", "VBScript");
     private static final List<String> DOMAINS = Arrays.asList("aol.com", "hotmail.com", "prodigy.com", "CompuServe.com");
     private static final List<String> EMPLOYERS = Arrays.asList("Microsoft", "Google", "Fog Creek Software", "37Signals");
+    private static final int DEFAULT_FEE = 0;
 
     public String firstName;
     public String lastName;
     public String email;
+    public String employer;
+
     public int experience;
     public boolean hasBlog;
-    public String blog;
-    public WebBrowser browser;
     public List<String> certifications;
-    public String employer;
-    public int registrationFee = 0;
+    public String blog;
+
+    public int registrationFee = DEFAULT_FEE;
+    public WebBrowser browser;
     public List<Session> session;
 
     public int register(Repository repository) {
