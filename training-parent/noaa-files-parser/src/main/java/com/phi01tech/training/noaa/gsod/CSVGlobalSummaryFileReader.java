@@ -1,41 +1,20 @@
 package com.phi01tech.training.noaa.gsod;
 
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import com.phi01tech.training.noaa.CSVFileReader;
+
+import java.io.IOException;
 
 
-public class GlobalSummaryFileReaderImpl implements GlobalSummaryFileReader {
-
+public class CSVGlobalSummaryFileReader extends CSVFileReader<GlobalSummary> {
     @Override
-    public List<GlobalSummary> readGlobalSummaryFile(File globalSummaryFile) {
-        List<GlobalSummary> globalSummaries = new ArrayList<>();
-
-        try (InputStream ins = new FileInputStream(globalSummaryFile);
-             BufferedReader br = new BufferedReader(new InputStreamReader(ins, "UTF-8"))) {
-            skipHeader(br);
-            parseLines(globalSummaries, br);
-        } catch (IOException e) {
-
-            throw new GlobalSummaryFileReadException("Could not read gsod file.");
-        }
-
-        return globalSummaries;
+    protected RuntimeException constructException(IOException e) {
+        return new GlobalSummaryFileReadException("Could not read gsod file.",e);
     }
 
-    private void parseLines(List<GlobalSummary> gsods, BufferedReader br) throws IOException {
-        String line;
-        while ((line = br.readLine()) != null) {
-            gsods.add(parseGlobalSummary(line));
-        }
-    }
+    // TODO throw the expected exception
 
-    private void skipHeader(BufferedReader br) throws IOException {
-        br.readLine();
-    }
-
-    private GlobalSummary parseGlobalSummary(String line) {
+    protected GlobalSummary parseLine(String line) {
         String stationId = subStringAndRemoveExtraSpaces(0, 7, line);
         String wban = subStringAndRemoveExtraSpaces(7, 14, line);
         String yearModa = subStringAndRemoveExtraSpaces(14, 26, line);

@@ -3,9 +3,9 @@ package com.phi01tech.training.noaa.station;
 import java.io.File;
 import java.util.List;
 
-public interface StationFileReader {
+public interface StationFileReader<T> {
 
-    List<Station> readStations(File stationFile);
+    List<T> readFile(File stationFile);
 
 
 

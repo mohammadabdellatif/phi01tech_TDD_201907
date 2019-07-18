@@ -1,42 +1,16 @@
 package com.phi01tech.training.noaa.station;
 
-import java.io.*;
+import com.phi01tech.training.noaa.CSVFileReader;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
 
-public class TXTStationFileReader implements StationFileReader {
+public class TXTStationFileReader extends CSVFileReader<Station> {
 
     private static final DateTimeFormatter DATE_FIELDS_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
 
-    @Override
-    public List<Station> readStations(File stationFile) {
-        try (BufferedReader bufferedReader = createBufferedReader(stationFile)) {
-            skipFirstLine(bufferedReader);
-            return readFileContent(bufferedReader);
-        } catch (IOException e) {
-            throw new IllegalStateException(e);// rethrow
-        }
-    }
-
-    private BufferedReader createBufferedReader(File stationFile) throws FileNotFoundException, UnsupportedEncodingException {
-        InputStream inputStream = new FileInputStream(stationFile);
-        Reader reader = new InputStreamReader(inputStream, "UTF-8");
-        return new BufferedReader(reader);
-    }
-
-    private List<Station> readFileContent(BufferedReader bufferedReader) throws IOException {
-        List<Station> stations = new ArrayList<>();
-        String line;
-        while ((line = bufferedReader.readLine()) != null) {
-            stations.add(parseLine(line));
-        }
-        return stations;
-    }
-
-    private Station parseLine(String line) {
+    protected Station parseLine(String line) {
         StationParams params = new StationParams();
         params.id = readFixedLengthField(0, 6, line);
         params.wban = readFixedLengthField(6, 13, line);
@@ -71,11 +45,6 @@ public class TXTStationFileReader implements StationFileReader {
                     Double.parseDouble(latitude));
         return geoLocation;
     }
-
-    private void skipFirstLine(BufferedReader bufferedReader) throws IOException {
-        bufferedReader.readLine();
-    }
-
 
     public String readFixedLengthField(int from, int to, String line) {
         return line.substring(from, to).trim().replaceAll(" +", " ");

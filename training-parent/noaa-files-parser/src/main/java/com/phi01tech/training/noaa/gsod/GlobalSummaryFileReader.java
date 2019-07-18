@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface GlobalSummaryFileReader {
 
-    List<GlobalSummary> readGlobalSummaryFile(File globalSummaryFile);
+    List<Object> readFile(File globalSummaryFile);
 
 
 
