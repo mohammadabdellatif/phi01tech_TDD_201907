@@ -1,18 +1,25 @@
 package com.phi01tech.training.noaa.test;
 
 import com.phi01tech.training.noaa.CSVFileReader;
-import com.phi01tech.training.noaa.gsod.CSVGlobalSummaryFileReader;
+import com.phi01tech.training.noaa.LineParser;
 import com.phi01tech.training.noaa.station.GeoLocation;
 import com.phi01tech.training.noaa.station.Station;
-import com.phi01tech.training.noaa.station.TXTStationFileReader;
+import com.phi01tech.training.noaa.station.StationLineParser;
 
 import java.io.File;
 import java.util.List;
 
 public class StationTest {
-    // TODO we need to add verification for line if it is correct or not
+    // Encapsulate what varies
+    // Favor Composition over inheritance
+    // Open for extension closed for modification
+
+    // Dependency Injection
+
+    // injector
     public static void main(String[] args) {
-        CSVFileReader<Station> fileReader = new TXTStationFileReader();
+        LineParser<Station> parser = new StationLineParser();
+        CSVFileReader<Station> fileReader = new CSVFileReader<>(parser);
 
         List<Station> stations = fileReader.readFile(new File("./Stations.txt"));
 

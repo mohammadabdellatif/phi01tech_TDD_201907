@@ -1,16 +1,16 @@
 package com.phi01tech.training.noaa.station;
 
-import com.phi01tech.training.noaa.CSVFileReader;
+import com.phi01tech.training.noaa.LineParser;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-
-public class TXTStationFileReader extends CSVFileReader<Station> {
+public class StationLineParser implements LineParser<Station> {
 
     private static final DateTimeFormatter DATE_FIELDS_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
 
-    protected Station parseLine(String line) {
+    @Override
+    public Station parseLine(String line) {
         StationParams params = new StationParams();
         params.id = readFixedLengthField(0, 6, line);
         params.wban = readFixedLengthField(6, 13, line);
@@ -49,5 +49,4 @@ public class TXTStationFileReader extends CSVFileReader<Station> {
     public String readFixedLengthField(int from, int to, String line) {
         return line.substring(from, to).trim().replaceAll(" +", " ");
     }
-
 }

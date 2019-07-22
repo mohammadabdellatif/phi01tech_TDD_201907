@@ -53,5 +53,6 @@
         <module>speaker-model</module>
         <module>library-management</module>
         <module>math-utility</module>
+        <module>currency-convertor</module>
     </modules>
 </project>

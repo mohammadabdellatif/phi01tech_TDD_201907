@@ -1,20 +1,10 @@
 package com.phi01tech.training.noaa.gsod;
 
+import com.phi01tech.training.noaa.LineParser;
 
-import com.phi01tech.training.noaa.CSVFileReader;
-
-import java.io.IOException;
-
-
-public class CSVGlobalSummaryFileReader extends CSVFileReader<GlobalSummary> {
+public class GSODParser implements LineParser<GlobalSummary> {
     @Override
-    protected RuntimeException constructException(IOException e) {
-        return new GlobalSummaryFileReadException("Could not read gsod file.",e);
-    }
-
-    // TODO throw the expected exception
-
-    protected GlobalSummary parseLine(String line) {
+    public GlobalSummary parseLine(String line) {
         String stationId = subStringAndRemoveExtraSpaces(0, 7, line);
         String wban = subStringAndRemoveExtraSpaces(7, 14, line);
         String yearModa = subStringAndRemoveExtraSpaces(14, 26, line);
@@ -56,6 +46,5 @@ public class CSVGlobalSummaryFileReader extends CSVFileReader<GlobalSummary> {
         value = value.substring(from, to);
         return value.trim().replaceAll(" +", " ");
     }
-
 
 }
