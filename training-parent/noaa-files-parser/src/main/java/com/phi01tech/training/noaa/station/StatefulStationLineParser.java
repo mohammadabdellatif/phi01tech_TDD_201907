@@ -1,32 +1,29 @@
 package com.phi01tech.training.noaa.station;
 
-import com.phi01tech.training.noaa.LineParser;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class StationLineParser implements LineParser<Station> {
+public class StatefulStationLineParser {
 
     private static final DateTimeFormatter DATE_FIELDS_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
 
+    private String line;
 
-    @Override
-    public Station parseLine(String line) {
-        // fluent APIs
-        // Complex (too much fields, immutable,simple complex values
-        // Encapsulate and represent complex object construction
-        // Fluent style makes it more readable
-        // to force object construction to be done from one place
-        return Station
-                .builderForId(readFixedLengthField(0, 6, line))
-                .withWban(readFixedLengthField(6, 13, line))
-                .withName(readFixedLengthField(13, 43, line))
-                .inLocation(readLocationFields(line))
-                .onGeoLocation(readGeoLocationFields(line))
-                .withIcaoId(readFixedLengthField(51, 57, line))
-                .atElevation(readFixedLengthField(74, 82, line))
-                .atDates(readDatesFields(line))
-                .build();
+    public StatefulStationLineParser(String line) {
+        this.line = line;
+    }
+
+    public Station parseLine() {
+        StationParams params = new StationParams();
+        params.id = readFixedLengthField(0, 6, line);
+        params.wban = readFixedLengthField(6, 13, line);
+        params.stationName = readFixedLengthField(13, 43, line);
+        params.location = readLocationFields(line);
+        params.geoLocation = readGeoLocationFields(line);
+        params.icaoId = readFixedLengthField(51, 57, line);
+        params.elevation = readFixedLengthField(74, 82, line);
+        params.dates = readDatesFields(line);
+        return new Station(params);
     }
 
     private Dates readDatesFields(String line) {

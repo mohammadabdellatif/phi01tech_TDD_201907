@@ -3,9 +3,11 @@ package com.phi01tech.training.noaa;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class CSVFileReader<OBJ> {
 
+    // Strategy Design pattern
     private LineParser<OBJ> lineParser;
     private ExceptionHandler exceptionHandler = new DefaultExceptionHandler();
 
@@ -18,14 +20,26 @@ public class CSVFileReader<OBJ> {
     }
 
     public List<OBJ> readFile(File file) {
+        ArrayList<OBJ> objects = new ArrayList<>();
+        readFile(file, objects::add);
+        return objects;
+    }
+
+    public void readFile(File file, Consumer<OBJ> recordConsumer) {
         try (BufferedReader bufferedReader = createBufferedReader(file)) {
             skipFirstLine(bufferedReader);
-            return readFileContent(bufferedReader);
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                // i need someone to provide me with implementation for this function
+                OBJ obj = lineParser.parseLine(line);
+                recordConsumer.accept(obj);
+            }
         } catch (IOException e) {
             // swallowing
             throw exceptionHandler.returnProperException(e);// rethrow
         }
     }
+
 
     protected BufferedReader createBufferedReader(File stationFile)
             throws FileNotFoundException, UnsupportedEncodingException {
@@ -38,18 +52,7 @@ public class CSVFileReader<OBJ> {
         bufferedReader.readLine();
     }
 
-    protected List<OBJ> readFileContent(BufferedReader bufferedReader) throws IOException {
-        List<OBJ> objects = new ArrayList<>();
-        String line;
-        while ((line = bufferedReader.readLine()) != null) {
-            // i need someone to provide me with implementation for this function
-            OBJ obj = lineParser.parseLine(line);
-            objects.add(obj);
-        }
-        return objects;
-    }
-
-    private static class DefaultExceptionHandler implements ExceptionHandler{
+    private static class DefaultExceptionHandler implements ExceptionHandler {
 
         @Override
         public RuntimeException returnProperException(IOException e) {

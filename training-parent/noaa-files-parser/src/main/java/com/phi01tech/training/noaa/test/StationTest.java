@@ -7,7 +7,10 @@ import com.phi01tech.training.noaa.station.Station;
 import com.phi01tech.training.noaa.station.StationLineParser;
 
 import java.io.File;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class StationTest {
     // Encapsulate what varies
@@ -21,16 +24,20 @@ public class StationTest {
         LineParser<Station> parser = new StationLineParser();
         CSVFileReader<Station> fileReader = new CSVFileReader<>(parser);
 
-        List<Station> stations = fileReader.readFile(new File("./Stations.txt"));
 
-
-
-        for (Station station : stations) {
-            GeoLocation geoLocation = station.getGeoLocation();
-            System.out.printf("%s,%f,%f%n",
-                    station.getStationName(),
-                    geoLocation == null ? 0 : geoLocation.latitude(),
-                    geoLocation == null ? 0 : geoLocation.longitude());
-        }
+        Instant start = Instant.now();
+        fileReader.readFile(new File("./Stations.txt"), StationTest::pintStationInfo);
+        Duration duration = Duration.between(start, Instant.now());
+        System.out.println(duration.getSeconds());
     }
+
+    private static void pintStationInfo(Station station) {
+        GeoLocation geoLocation = station.getGeoLocation();
+        System.out.printf("%s,%f,%f%n",
+                station.getStationName(),
+                geoLocation == null ? 0 : geoLocation.latitude(),
+                geoLocation == null ? 0 : geoLocation.longitude());
+    }
+
+
 }

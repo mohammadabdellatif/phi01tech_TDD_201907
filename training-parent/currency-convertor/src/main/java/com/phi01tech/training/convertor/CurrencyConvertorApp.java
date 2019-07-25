@@ -9,6 +9,7 @@ import java.util.Scanner;
 // then display the converted amount
 public class CurrencyConvertorApp {
 
+    // Strategy design pattern
     private RateProvider rateProvider;
 
     public CurrencyConvertorApp(RateProvider rateProvider) {
