@@ -44,8 +44,8 @@ public class StatefulStationLineParser {
         GeoLocation geoLocation = null;
         if (!longitude.isEmpty() && !latitude.isEmpty())
             geoLocation = GeoLocation.builder()
-                    .setLatitdue(Double.parseDouble(longitude))
-                    .setLongitude(Double.parseDouble(latitude))
+                    .latitude(Double.parseDouble(longitude))
+                    .longitude(Double.parseDouble(latitude))
                     .build();
         return geoLocation;
     }

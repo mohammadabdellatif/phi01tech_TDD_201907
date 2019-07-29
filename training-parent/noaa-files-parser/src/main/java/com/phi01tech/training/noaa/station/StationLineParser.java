@@ -47,8 +47,8 @@ public class StationLineParser implements LineParser<Station> {
         GeoLocation geoLocation = null;
         if (!longitude.isEmpty() && !latitude.isEmpty())
             geoLocation = GeoLocation.builder()
-                    .setLatitdue(Double.parseDouble(longitude))
-                    .setLongitude(Double.parseDouble(latitude)).build();
+                    .latitude(Double.parseDouble(longitude))
+                    .longitude(Double.parseDouble(latitude)).build();
         return geoLocation;
     }
 
