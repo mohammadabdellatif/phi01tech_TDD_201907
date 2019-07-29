@@ -55,5 +55,6 @@
         <module>math-utility</module>
         <module>currency-convertor</module>
         <module>xml-generator</module>
+        <module>matrix-utility</module>
     </modules>
 </project>

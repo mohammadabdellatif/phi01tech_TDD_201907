@@ -14,16 +14,16 @@ public class StatefulStationLineParser {
     }
 
     public Station parseLine() {
-        StationParams params = new StationParams();
-        params.id = readFixedLengthField(0, 6, line);
-        params.wban = readFixedLengthField(6, 13, line);
-        params.stationName = readFixedLengthField(13, 43, line);
-        params.location = readLocationFields(line);
-        params.geoLocation = readGeoLocationFields(line);
-        params.icaoId = readFixedLengthField(51, 57, line);
-        params.elevation = readFixedLengthField(74, 82, line);
-        params.dates = readDatesFields(line);
-        return new Station(params);
+        return Station
+                .builderForId(readFixedLengthField(0, 6, line))
+                .withWban(readFixedLengthField(6, 13, line))
+                .withName(readFixedLengthField(13, 43, line))
+                .inLocation(readLocationFields(line))
+                .onGeoLocation(readGeoLocationFields(line))
+                .withIcaoId(readFixedLengthField(51, 57, line))
+                .atElevation(readFixedLengthField(74, 82, line))
+                .atDates(readDatesFields(line))
+                .build();
     }
 
     private Dates readDatesFields(String line) {
@@ -43,9 +43,10 @@ public class StatefulStationLineParser {
         String latitude = readFixedLengthField(57, 65, line);
         GeoLocation geoLocation = null;
         if (!longitude.isEmpty() && !latitude.isEmpty())
-            geoLocation = new GeoLocation(
-                    Double.parseDouble(longitude),
-                    Double.parseDouble(latitude));
+            geoLocation = GeoLocation.builder()
+                    .setLatitdue(Double.parseDouble(longitude))
+                    .setLongitude(Double.parseDouble(latitude))
+                    .build();
         return geoLocation;
     }
 

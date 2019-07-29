@@ -46,9 +46,9 @@ public class StationLineParser implements LineParser<Station> {
         String latitude = readFixedLengthField(57, 65, line);
         GeoLocation geoLocation = null;
         if (!longitude.isEmpty() && !latitude.isEmpty())
-            geoLocation = new GeoLocation(
-                    Double.parseDouble(longitude),
-                    Double.parseDouble(latitude));
+            geoLocation = GeoLocation.builder()
+                    .setLatitdue(Double.parseDouble(longitude))
+                    .setLongitude(Double.parseDouble(latitude)).build();
         return geoLocation;
     }
 
