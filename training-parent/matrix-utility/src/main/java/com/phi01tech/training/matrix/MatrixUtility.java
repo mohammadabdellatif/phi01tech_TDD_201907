@@ -4,10 +4,16 @@ public class MatrixUtility {
 
     // production code
     public static int[][] sum(int[][] first, int[][] second) {
-        throwIfInvalidMatrix(first,"first matrix is invalid");
-        throwIfInvalidMatrix(second,"second matrix is invalid");
+        throwIfInvalidMatrix(first, "first matrix is invalid");
+        throwIfInvalidMatrix(second, "second matrix is invalid");
+        throwIfIncompatibleForSummation(first, second);
 
         return doSummation(first, second);
+    }
+
+    private static void throwIfIncompatibleForSummation(int[][] first, int[][] second) {
+        if (first.length != second.length || first[0].length != second[0].length)
+            throw new IllegalArgumentException("incompatible matrices");
     }
 
     private static int[][] doSummation(int[][] first, int[][] second) {
