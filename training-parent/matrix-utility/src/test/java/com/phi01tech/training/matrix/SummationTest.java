@@ -107,40 +107,6 @@ public class SummationTest {
         }
     }
 
-    public static class InvalidMatrixProvider implements ArgumentsProvider {
 
-        @Override
-        public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) throws Exception {
-            ArrayList<Arguments> arguments = new ArrayList<>();
-            arguments.add(Arguments.of(new Object[]{new int[][]{
-                    {1, 3, 4},
-                    {1, 4}
-            }}));
-            arguments.add(Arguments.of(new Object[]{new int[][]{
-                    {1, 3, 4},
-                    {1, 4, 4, 4},
-                    {1, 4, 4, 4}
-            }}));
-
-            arguments.add(Arguments.of(new Object[]{new int[][]{
-                    {1, 3, 4},
-                    null,
-                    {1, 4, 4, 4}
-            }}));
-            arguments.add(Arguments.of(new Object[]{new int[][]{
-                    {1, 3, 4, 6},
-                    {1, 4, 4, 4},
-                    {1, 4, 4, 4},
-                    null
-            }}));
-            arguments.add(Arguments.of(new Object[]{new int[][]{
-                    null,
-                    {1, 4, 4, 4},
-                    {1, 4, 4, 4}
-            }}));
-
-            return arguments.stream();
-        }
-    }
 
 }

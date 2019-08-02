@@ -36,4 +36,13 @@ public class MatrixUtility {
                 throw new InvalidMatrixException(failureMessage);
         }
     }
+
+    public static int[][] scale(int scalar, int[][] matrix) {
+        throwIfInvalidMatrix(matrix, "invalid matrix");
+        int[][] result = new int[matrix.length][matrix[0].length];
+        for (int row = 0; row < matrix.length; row++)
+            for (int col = 0; col < matrix.length; col++)
+                result[row][col] = scalar * matrix[row][col];
+        return result;
+    }
 }

@@ -61,5 +61,6 @@
         <module>currency-convertor</module>
         <module>xml-generator</module>
         <module>matrix-utility</module>
+        <module>data-structure</module>
     </modules>
 </project>
