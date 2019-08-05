@@ -5,8 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.EmptyStackException;
-
 public class StackTest {
 
 
@@ -32,10 +30,11 @@ public class StackTest {
     }
 
     @Test
-    public void givenAnEmptyStack_whenPushAndPop_thenExceptionIsThrown() {
+    public void givenAStackWithZeroSize_whenPushAndPop_thenExceptionIsThrown() {
         Stack stack = new Stack(0);
-        Assertions.assertThrows(EmptyStackException.class, () -> stack.pop());
-        Assertions.assertThrows(FullStackException.class, () -> stack.push(null));
+        Assertions.assertThrows(UnmodifiableStackException.class, () -> stack.pop());
+        // TODO we might to throw another exception type
+        Assertions.assertThrows(UnmodifiableStackException.class, () -> stack.push(null));
     }
 
     @Test
@@ -65,7 +64,6 @@ public class StackTest {
 
         Assertions.assertEquals("2", stack.pop());
         Assertions.assertEquals(1, stack.size());
-
 
         Assertions.assertDoesNotThrow(() -> stack.push(3));
         Assertions.assertEquals(2, stack.size());

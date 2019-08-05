@@ -62,5 +62,6 @@
         <module>xml-generator</module>
         <module>matrix-utility</module>
         <module>data-structure</module>
+        <module>users-management</module>
     </modules>
 </project>
