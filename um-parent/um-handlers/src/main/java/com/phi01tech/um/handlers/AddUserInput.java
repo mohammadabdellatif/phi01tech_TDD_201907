@@ -1,4 +1,4 @@
-package com.phi01tech.um;
+package com.phi01tech.um.handlers;
 
 public class AddUserInput {
     private String username;

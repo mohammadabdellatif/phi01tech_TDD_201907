@@ -1,21 +1,23 @@
-package com.phi01tech.um;
+package com.phi01tech.um.handlers;
 
+import com.phi01tech.um.*;
+import com.phi01tech.um.utils.PasswordGenerator;
 import org.apache.commons.validator.routines.EmailValidator;
 
-public class AddUserHandler {
+public class DefaultAddUserHandler implements AddUserHandler {
 
     public static final String VALID_USERNAME_PATTERN = "[a-zA-Z0-9\\._]{6,}";
 
     private final UserRepository repository;
     private final PasswordGenerator passwordGenerator;
 
-    public AddUserHandler(UserRepository repository, PasswordGenerator passwordGenerator) {
+    public DefaultAddUserHandler(UserRepository repository, PasswordGenerator passwordGenerator) {
         this.repository = repository;
         this.passwordGenerator = passwordGenerator;
     }
 
 
-    public void execute(AddUserInput input) {
+    @Override public void execute(AddUserInput input) {
         validInput(input);
         validateUniqueness(input);
         createAndSaveUser(input);

@@ -7,9 +7,11 @@ public class AddUserHandler {
     public static final String VALID_USERNAME_PATTERN = "[a-zA-Z0-9\\._]{6,}";
 
     private final UserRepository repository;
+    private final PasswordGenerator passwordGenerator;
 
-    public AddUserHandler(UserRepository repository) {
+    public AddUserHandler(UserRepository repository, PasswordGenerator passwordGenerator) {
         this.repository = repository;
+        this.passwordGenerator = passwordGenerator;
     }
 
 
@@ -29,6 +31,7 @@ public class AddUserHandler {
         user.setUsername(input.getUsername());
         user.setEmail(input.getEmail());
         user.setFullName(input.getFullName());
+        user.setPassword(passwordGenerator.generate());
         return user;
     }
 

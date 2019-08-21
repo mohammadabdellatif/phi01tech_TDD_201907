@@ -11,6 +11,7 @@
         <module>repositories-parent</module>
         <module>um-handlers</module>
         <module>um-console</module>
+        <module>um-soap-ws</module>
     </modules>
     <packaging>pom</packaging>
     <properties>

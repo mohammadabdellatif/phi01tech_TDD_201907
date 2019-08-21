@@ -60,6 +60,6 @@ public class PasswordGeneratorTest {
                 shuffledCount++;
             }
         }
-        Assertions.assertTrue((double) shuffledCount / shuffled.size() >= 0.33, "no strong shuffling: " + password);
+        Assertions.assertTrue((double) shuffledCount / shuffled.size() >= 0.25, "no strong shuffling: " + password);
     }
 }

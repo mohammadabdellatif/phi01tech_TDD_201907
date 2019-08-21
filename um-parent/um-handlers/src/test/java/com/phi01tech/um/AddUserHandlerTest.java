@@ -1,5 +1,7 @@
 package com.phi01tech.um;
 
+import com.phi01tech.um.handlers.*;
+import com.phi01tech.um.utils.PasswordGenerator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,7 +34,7 @@ public class AddUserHandlerTest {
     public void setup() {
         repository = Mockito.mock(UserRepository.class);
         passwordGenerator = Mockito.mock(PasswordGenerator.class);
-        handler = new AddUserHandler(repository, passwordGenerator);
+        handler = new DefaultAddUserHandler(repository, passwordGenerator);
     }
 
     @ParameterizedTest(name = "{index} - [{arguments}]")

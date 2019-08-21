@@ -2,13 +2,13 @@ package com.phi01tech.um;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
 import org.mockito.Mockito;
+
+import java.util.UUID;
 
 // Requirements:
 // inputs:
@@ -26,11 +26,13 @@ public class AddUserHandlerTest {
 
     private AddUserHandler handler;
     private UserRepository repository;
+    private PasswordGenerator passwordGenerator;
 
     @BeforeEach
     public void setup() {
         repository = Mockito.mock(UserRepository.class);
-        handler = new AddUserHandler(repository);
+        passwordGenerator = Mockito.mock(PasswordGenerator.class);
+        handler = new AddUserHandler(repository, passwordGenerator);
     }
 
     @ParameterizedTest(name = "{index} - [{arguments}]")
@@ -96,8 +98,10 @@ public class AddUserHandlerTest {
     public void givenValidInput_whenExecuteAddUserHandler_thenUserIsPersistedToRepo() {
         // password should be generated randomly
         // email sent with username and password
+        String password = UUID.randomUUID().toString();
         Mockito.when(repository.existsByUsername("administrator")).thenReturn(false);
         Mockito.when(repository.existsByEmail("admin@phi.com")).thenReturn(false);
+        Mockito.when(passwordGenerator.generate()).thenReturn(password);
 
         AddUserInput input = new AddUserInput();
         input.setUsername("administrator");
@@ -105,16 +109,17 @@ public class AddUserHandlerTest {
         input.setFullName("Ahmad sami");
 
         handler.execute(input);
-
+        // execution
         ArgumentCaptor<User> argument = ArgumentCaptor.forClass(User.class);
         Mockito.verify(repository).save(argument.capture());
 
         User user = argument.getValue();
-        Assertions.assertNotNull(user);
-        Assertions.assertEquals("administrator", user.getUsername());
-        Assertions.assertEquals("admin@phi.com", user.getEmail());
-        Assertions.assertEquals("Ahmad sami", user.getFullName());
-//        Assertions.assertNotNull(user.getPassword(), "password was not generated");
+        Assertions.assertNotNull(user, "passed user was null");
+        Assertions.assertEquals(input.getUsername(), user.getUsername(), "username is not as expected");
+        Assertions.assertEquals(input.getEmail(), user.getEmail(), "email is not as expected");
+        Assertions.assertEquals(input.getFullName(), user.getFullName(), "full name is not as expected");
+        Assertions.assertNotNull(user.getPassword(), "password was not generated");
+        Assertions.assertEquals(password, user.getPassword(), "generated password is not as expected");
 
     }
 
